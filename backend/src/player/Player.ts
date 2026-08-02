@@ -15,12 +15,8 @@ export class Player {
     this.isHost = false;
   }
 
-  readyUp() {
-    this.isReady = true;
-  }
-
-  unReady() {
-    this.isReady = false;
+  toggleReady(): void {
+    this.isReady = !this.isReady;
   }
 
   disconnect() {
