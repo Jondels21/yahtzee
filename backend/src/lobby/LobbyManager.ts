@@ -26,4 +26,14 @@ export class LobbyManager {
     getAllLobbies(): Lobby[] {
         return [...this.lobbies.values()];
     }
+
+    findLobbyByPlayer(playerId: string): Lobby | undefined {
+        for (const lobby of this.lobbies.values()) {
+            if (lobby.getPlayer(playerId)) {
+                return lobby;
+            }
+        }
+        return undefined;
+    }
+
 }
