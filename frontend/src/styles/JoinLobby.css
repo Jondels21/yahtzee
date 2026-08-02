@@ -1,0 +1,26 @@
+.input-field {
+  background: none;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: #d3d3d3;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem 1rem;
+
+  background: #2a2a2a;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+
+  transition: border-color 0.2s;
+}
+
+.join {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
