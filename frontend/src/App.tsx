@@ -2,8 +2,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
 import LobbyPage from './pages/LobbyPage';
+import GamePage from './pages/GamePage';
 
 import "./App.css";
+
 
 function App() {
   return(
@@ -15,6 +17,9 @@ function App() {
         <Route
           path='/lobby/:joinCode'
           element={<LobbyPage />} />
+        <Route
+          path='/game/:joinCode'
+          element={<GamePage />} />
       </Routes>
     </BrowserRouter>
   )

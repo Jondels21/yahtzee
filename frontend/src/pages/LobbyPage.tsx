@@ -42,6 +42,10 @@ export default function LobbyPage() {
     socket.emit(ClientEvents.PLAYER_READY, joinCode);
   };
 
+  const handlePressStart = () => {
+    socket.emit(ClientEvents.START_GAME, joinCode);
+  };
+
 
   useEffect(() => {
     const handleLobbyUpdated = (updatedLobby: Lobby) => {
@@ -59,17 +63,23 @@ export default function LobbyPage() {
       setNicknameError(message);
     };
 
+    const handleGameStarted = () => {
+      navigate(`/game/${joinCode}`);
+    };
+
 
     socket.on(ServerEvents.LOBBY_UPDATED, handleLobbyUpdated);
     socket.on(ServerEvents.NICKNAME_ACCEPTED, handleNicknameAccepted);
     socket.on(ServerEvents.ERROR, handleNicknameError);
+    socket.on(ServerEvents.GAME_STARTED, handleGameStarted);
 
     return () => {
       socket.off(ServerEvents.LOBBY_UPDATED, handleLobbyUpdated);
       socket.off(ServerEvents.NICKNAME_ACCEPTED, handleNicknameAccepted);
+      socket.off(ServerEvents.GAME_STARTED, handleGameStarted);
       socket.off(ServerEvents.ERROR, handleNicknameError);
     };
-  }, []);
+  }, [navigate, joinCode]);
 
     if (!joinCode) {
       return <p>Lobby not found</p>
@@ -104,6 +114,7 @@ export default function LobbyPage() {
                 onClick={handlePlayerReady}
               />
               
+              <button onClick={handlePressStart}>Start game</button>
             </div>
           </main>
 

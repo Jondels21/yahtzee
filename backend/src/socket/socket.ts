@@ -2,14 +2,18 @@ import { Server } from "socket.io";
 import { LobbyManager } from "../lobby/LobbyManager.js";
 import { registerLobbyEvents } from "./handlers/lobbyHandler.js";
 import { ServerEvents } from "./events.js";
+import { registerGameEvents } from "./handlers/gameHandler.js";
+import { GameManager } from "../game/gameManager.js";
 
 export function initializeSocket(io: Server) {
     const lobbyManager = new LobbyManager();
+    const gameManager = new GameManager();
 
     io.on("connection", (socket) => {
         console.log(`${socket.id} connected`);
 
         registerLobbyEvents(socket, io, lobbyManager);
+        registerGameEvents(socket, io, gameManager, lobbyManager);
 
         socket.on("disconnect", () => {
             console.log(`${socket.id} disconnected`);

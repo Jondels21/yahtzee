@@ -5,6 +5,7 @@ export const ClientEvents = {
   LEAVE_LOBBY: "leaveLoby",
   PLAYER_READY: "playerReady",
   START_GAME: "startGame",
+  GET_GAME_STATE: "getGameState",
 } as const;
 
 export const ServerEvents = {
@@ -12,5 +13,7 @@ export const ServerEvents = {
   LOBBY_JOINED: "lobbyJoined",
   LOBBY_UPDATED: "lobbyUpdated",
   NICKNAME_ACCEPTED: "nicknameAccepted",
+  GAME_STARTED: "gameStarted",
+  GAME_UPDATED: "gameUpdated",
   ERROR: "error",
 } as const;
