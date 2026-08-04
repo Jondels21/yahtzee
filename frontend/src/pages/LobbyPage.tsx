@@ -16,7 +16,7 @@ export default function LobbyPage() {
   const navigate = useNavigate();
   const { joinCode } = useParams();
 
-  const [showNicknameModal, setShowNicknameModal] = useState(!localStorage.getItem("nickname"));
+  const [showNicknameModal, setShowNicknameModal] = useState(true);
   const [lobby, setLobby] = useState<Lobby | null>(null);
 
 
@@ -41,7 +41,6 @@ export default function LobbyPage() {
   const handlePlayerReady = () => {
     socket.emit(ClientEvents.PLAYER_READY, joinCode);
   };
-
 
 
   useEffect(() => {
@@ -104,7 +103,7 @@ export default function LobbyPage() {
                 ready={currentPlayer?.isReady ?? false}
                 onClick={handlePlayerReady}
               />
-
+              
             </div>
           </main>
 
