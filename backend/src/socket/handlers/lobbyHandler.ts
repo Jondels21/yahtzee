@@ -1,6 +1,6 @@
-import { Server, Socket } from "socket.io"
-import { LobbyManager } from "../../lobby/LobbyManager.js"
-import { ClientEvents, ServerEvents } from "../events.js"
+import { Server, Socket } from "socket.io";
+import { LobbyManager } from "../../lobby/LobbyManager.js";
+import { ClientEvents, ServerEvents } from "../events.js";
 import { generateLobbyCode } from "../../utils/generateLobbyCode.js";
 import { Player } from "../../player/Player.js";
 
@@ -13,7 +13,7 @@ export function registerLobbyEvents(
     socket.on(ClientEvents.CREATE_LOBBY, () => {
         
         let joinCode = generateLobbyCode();
-        while(lobbyManager.lobbyExists(joinCode)) {
+        while (lobbyManager.lobbyExists(joinCode)) {
             joinCode = generateLobbyCode();
         }
 
@@ -31,21 +31,24 @@ export function registerLobbyEvents(
 
         const lobby = lobbyManager.getLobby(joinCode);
 
-        if(!lobby) {
+        if (!lobby) {
             socket.emit(ServerEvents.ERROR, "lobby not found");
             return;
         }
-        if(lobby.isFull()) {
+        if (lobby.isFull()) {
             socket.emit(ServerEvents.ERROR, "lobby is full");
+            return;
+        }
+
+        if (lobby.status !== 0) {
+            socket.emit(ServerEvents.ERROR, "Game has already started");
             return;
         }
 
         socket.join(joinCode)
         console.log(`JOIN_LOBBY, User ${socket.id} joined lobby ${joinCode}`);
 
-        socket.emit(ServerEvents.LOBBY_JOINED, {
-            joinCode,
-        });
+        socket.emit(ServerEvents.LOBBY_JOINED, {joinCode});
     });
 
     socket.on(ClientEvents.LEAVE_LOBBY, (joinCode) => {
@@ -68,7 +71,7 @@ export function registerLobbyEvents(
         
         socket.leave(joinCode);
 
-        if(lobby.isEmpty()) {
+        if (lobby.isEmpty()) {
             lobbyManager.deleteLobby(joinCode);
             console.log(`Deleted lobby ${joinCode}`);
             return;
@@ -132,4 +135,4 @@ export function registerLobbyEvents(
 
     });
 
-}
+}  

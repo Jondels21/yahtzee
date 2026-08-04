@@ -73,4 +73,12 @@ export class Lobby {
         return this.players.length === 0;
     }
 
+    setStatus(status: LobbyStatus): void {
+        this.status = status;
+    }
+
+    getStatus(): LobbyStatus {
+        return this.status;
+    }
+
 }
