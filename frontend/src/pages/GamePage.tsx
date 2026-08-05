@@ -4,6 +4,10 @@ import { ClientEvents, ServerEvents } from "../socket/events";
 import { useParams } from "react-router-dom";
 import type { Game } from "../types/Game";
 
+import Scorecard from "../components/Scorecard";
+
+import "../styles/GamePage.css";
+
 
 export default function GamePage() {
 
@@ -51,15 +55,16 @@ export default function GamePage() {
   };
 
   return (
-      <>
-        <section id="center">
-          <div className="hero">
-            <h2>{game!.joinCode}</h2>
-            <p>Players: {game!.players.length}</p>
-            <p>Current turn: {game!.currentTurn}</p>
-          </div>
-        </section>
-  </>
+    <>
+      <main className="game-container">
+        <div className="game-area">
+          <h1>Game</h1>
+        </div>
+        <div className="score-area">
+          <Scorecard players={game!.players} maxPlayers={4} />
+        </div>
+      </main>
+    </>
   );
   
 }

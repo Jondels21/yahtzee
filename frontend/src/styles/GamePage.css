@@ -1,0 +1,32 @@
+.game-container {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5rem;
+  padding: 0.5rem;
+}
+
+.game-area {
+  display: flex;
+  padding: 1rem;
+
+  border: solid 1px red;
+
+  min-width: fit-content;
+  min-height: fit-content;
+
+  height: 40rem;
+  width: 50rem;
+
+  background: rgba(245, 245, 245, 0.336);
+}
+
+.score-area {
+  display: flex;
+  padding: 1rem;
+}
