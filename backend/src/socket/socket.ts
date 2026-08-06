@@ -3,7 +3,7 @@ import { LobbyManager } from "../lobby/LobbyManager.js";
 import { registerLobbyEvents } from "./handlers/lobbyHandler.js";
 import { ServerEvents } from "./events.js";
 import { registerGameEvents } from "./handlers/gameHandler.js";
-import { GameManager } from "../game/gameManager.js";
+import { GameManager } from "../game/GameManager.js";
 
 export function initializeSocket(io: Server) {
     const lobbyManager = new LobbyManager();

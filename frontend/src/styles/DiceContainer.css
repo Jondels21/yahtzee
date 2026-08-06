@@ -1,0 +1,45 @@
+.diceRow {
+  display: flex;
+  flex-direction: row;
+  color: black;
+  justify-content: center;
+
+  gap: 1rem;
+  padding-bottom: 2rem;
+}
+
+.die {
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 2px solid #444;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 2rem;
+
+  transition: all 0.2s ease;
+}
+
+.die:hover {
+  transform: translateY(-3px);
+}
+
+.die.held {
+  background: #ffd54f;
+  border-color: #f9a825;
+  transform: translateY(-10px);
+  box-shadow: 0 6px 12px rgba(0,0,0,.25);
+}
+
+.remaining {
+  display: flex;
+  color: black;
+
+  justify-content: center;
+  padding: 0.5rem;
+}

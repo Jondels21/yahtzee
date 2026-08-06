@@ -6,6 +6,8 @@ export const ClientEvents = {
   PLAYER_READY: "playerReady",
   START_GAME: "startGame",
   GET_GAME_STATE: "getGameState",
+  ROLL_DICE: "rollDice",
+  TOGGLE_DIE: "toggleDie",
 } as const;
 
 export const ServerEvents = {

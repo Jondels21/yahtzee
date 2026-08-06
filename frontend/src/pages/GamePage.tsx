@@ -7,6 +7,7 @@ import type { Game } from "../types/Game";
 import Scorecard from "../components/Scorecard";
 
 import "../styles/GamePage.css";
+import DiceContainer from "../components/DiceContainer";
 
 
 export default function GamePage() {
@@ -17,11 +18,13 @@ export default function GamePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-
+  
   useEffect(() => {
     if (!joinCode) {
       return;
     }
+
+    
 
     const handleGameUpdated = (updatedGame: Game) => {
       setGame(updatedGame);
@@ -46,6 +49,22 @@ export default function GamePage() {
 
   }, [joinCode]);
 
+  if (!game) {
+    return null;
+  }
+
+  const handleDiceRoll = () => {
+    socket.emit(ClientEvents.ROLL_DICE, joinCode);
+  }
+
+  const handleDieClick = (dieId: number) => {
+    if (game.rollsRemaining === 3 || game.rollsRemaining === 0) {
+      return;
+    }
+    
+    socket.emit(ClientEvents.TOGGLE_DIE, joinCode, dieId);
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   };
@@ -54,14 +73,18 @@ export default function GamePage() {
     return <p className="error">{error}</p>;
   };
 
+
+
   return (
     <>
       <main className="game-container">
         <div className="game-area">
           <h1>Game</h1>
+          <DiceContainer dice={game.dice} rollsRemaining={game.rollsRemaining} onDieClick={handleDieClick}/>
+          <button disabled={game.rollsRemaining === 0} onClick={handleDiceRoll}>ROLL DICE</button>
         </div>
         <div className="score-area">
-          <Scorecard players={game!.players} maxPlayers={4} />
+          <Scorecard players={game.players} maxPlayers={game.players.length} />
         </div>
       </main>
     </>

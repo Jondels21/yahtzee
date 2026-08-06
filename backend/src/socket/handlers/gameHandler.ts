@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import { GameManager } from "../../game/gameManager.js";
+import { GameManager } from "../../game/GameManager.js";
 import { ClientEvents, ServerEvents } from "../events.js";
 import { Player } from "../../player/Player.js";
 import type { LobbyManager } from "../../lobby/LobbyManager.js";
@@ -46,5 +46,34 @@ export function registerGameEvents(
     
 
     socket.emit(ServerEvents.GAME_UPDATED, game);
+  });
+
+  socket.on(ClientEvents.ROLL_DICE, (joinCode) => {
+    const game = gameManager.getGame(joinCode);
+    if (!game) {
+      socket.emit(ServerEvents.ERROR, "Game not found");
+      return;
+    }
+
+    console.log(`ROLL_DICE`);
+
+    game.rollDice();
+
+    io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game);
+
+  });
+
+  socket.on(ClientEvents.TOGGLE_DIE, (joinCode: string, id: number) => {
+    const game = gameManager.getGame(joinCode);
+    if (!game) {
+      socket.emit(ServerEvents.ERROR, "Game not found");
+      return;
+    }
+
+    game.toggleHoldDice(id);
+
+    console.log(`TOGGLE_DIE, Die:${id} toggled`);
+
+    io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game);
   });
 }

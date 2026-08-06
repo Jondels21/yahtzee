@@ -7,7 +7,10 @@ export class GameManager {
   createGame(lobby: Lobby): Game {
     const game = new Game(
       lobby.joinCode,
-      lobby.players
+      [...lobby.players],
+      0,
+      1,
+      3,
     );
 
     this.games.set(game.joinCode, game);
