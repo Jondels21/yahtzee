@@ -57,9 +57,13 @@ export function registerGameEvents(
 
     console.log(`ROLL_DICE`);
 
-    game.rollDice();
-
-    io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game);
+    if (socket.id === game.players[game.currentPlayerIndex].id) {
+        game.rollDice();
+        io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game);
+    } else {
+      socket.emit(ServerEvents.ERROR, "Not your turn");
+      return;
+    }
 
   });
 
@@ -70,10 +74,15 @@ export function registerGameEvents(
       return;
     }
 
-    game.toggleHoldDice(id);
+    if (socket.id === game.players[game.currentPlayerIndex].id) {
+      game.toggleHoldDice(id);
+      console.log(`TOGGLE_DIE, Die:${id} toggled`);
+      io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game);
+    } else {
+      socket.emit(ServerEvents.ERROR, "Not your turn");
+      return;
+    }
 
-    console.log(`TOGGLE_DIE, Die:${id} toggled`);
 
-    io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game);
   });
 }

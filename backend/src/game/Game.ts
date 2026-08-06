@@ -29,10 +29,6 @@ export class Game {
       return;
     }
 
-    if (this.rollsRemaining === 1) {
-      this.resetDice();
-    }
-
     for (const die of this.dice) {
       if (!die.held) {
         die.value = Math.floor(Math.random() * 6) + 1;
@@ -59,6 +55,15 @@ export class Game {
   resetDice(): void {
     for (const die of this.dice) {
       die.held = false;
+    }
+  }
+
+  nextPlayer(): void {
+    this.currentPlayerIndex++;
+    this.rollsRemaining = 3;
+    this.resetDice();
+    if (this.currentPlayerIndex === this.players.length) {
+      this.currentPlayerIndex = 0;
     }
   }
   

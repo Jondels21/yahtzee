@@ -53,13 +53,21 @@ export default function GamePage() {
     return null;
   }
 
+  const currentPlayer = game.players[game.currentPlayerIndex];
+
+  const isMyTurn = currentPlayer.id === socket.id;
+
   const handleDiceRoll = () => {
     socket.emit(ClientEvents.ROLL_DICE, joinCode);
   }
 
   const handleDieClick = (dieId: number) => {
-    if (game.rollsRemaining === 3 || game.rollsRemaining === 0) {
+    if (!isMyTurn) {
       return;
+    }
+
+    if (game.rollsRemaining === 3 || game.rollsRemaining === 0) {
+    return;
     }
     
     socket.emit(ClientEvents.TOGGLE_DIE, joinCode, dieId);
@@ -80,8 +88,9 @@ export default function GamePage() {
       <main className="game-container">
         <div className="game-area">
           <h1>Game</h1>
-          <DiceContainer dice={game.dice} rollsRemaining={game.rollsRemaining} onDieClick={handleDieClick}/>
-          <button disabled={game.rollsRemaining === 0} onClick={handleDiceRoll}>ROLL DICE</button>
+          <p>Current turn: {currentPlayer.nickname}</p>
+          <DiceContainer dice={game.dice} rollsRemaining={game.rollsRemaining} isMyTurn={isMyTurn} onDieClick={handleDieClick}/>
+          <button disabled={!isMyTurn || game.rollsRemaining === 0} onClick={handleDiceRoll}>ROLL DICE</button>
         </div>
         <div className="score-area">
           <Scorecard players={game.players} maxPlayers={game.players.length} />
