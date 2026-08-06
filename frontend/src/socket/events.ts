@@ -8,6 +8,7 @@ export const ClientEvents = {
   GET_GAME_STATE: "getGameState",
   ROLL_DICE: "rollDice",
   TOGGLE_DIE: "toggleDie",
+  SELECT_SCORE: "selectScore",
 } as const;
 
 export const ServerEvents = {

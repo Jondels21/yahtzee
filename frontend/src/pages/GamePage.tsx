@@ -8,6 +8,7 @@ import Scorecard from "../components/Scorecard";
 
 import "../styles/GamePage.css";
 import DiceContainer from "../components/DiceContainer";
+import type { ScoreCategory } from "../types/ScoreCategory";
 
 
 export default function GamePage() {
@@ -73,6 +74,11 @@ export default function GamePage() {
     socket.emit(ClientEvents.TOGGLE_DIE, joinCode, dieId);
   };
 
+  const handleScoreSelected = (category: ScoreCategory) => {
+    console.log(`Clicked ${category}`);
+    socket.emit(ClientEvents.SELECT_SCORE, joinCode, category);
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   };
@@ -89,11 +95,22 @@ export default function GamePage() {
         <div className="game-area">
           <h1>Game</h1>
           <p>Current turn: {currentPlayer.nickname}</p>
-          <DiceContainer dice={game.dice} rollsRemaining={game.rollsRemaining} isMyTurn={isMyTurn} onDieClick={handleDieClick}/>
+          <DiceContainer
+            dice={game.dice}
+            rollsRemaining={game.rollsRemaining}
+            isMyTurn={isMyTurn}
+            onDieClick={handleDieClick}
+          />
           <button disabled={!isMyTurn || game.rollsRemaining === 0} onClick={handleDiceRoll}>ROLL DICE</button>
         </div>
         <div className="score-area">
-          <Scorecard players={game.players} maxPlayers={game.players.length} />
+          <Scorecard
+            players={game.players}
+            currentPlayerIndex={game.currentPlayerIndex}
+            localPlayerId={socket.id}
+            onScoreSelected={handleScoreSelected}
+            maxPlayers={game.players.length}
+          />
         </div>
       </main>
     </>

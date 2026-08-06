@@ -4,6 +4,7 @@ import { ClientEvents, ServerEvents } from "../events.js";
 import { Player } from "../../player/Player.js";
 import type { LobbyManager } from "../../lobby/LobbyManager.js";
 import { LobbyStatus } from "../../lobby/LobbyStatus.js";
+import type { ScoreCategory } from "../../types/ScoreCategory.js";
 
 export function registerGameEvents(
   socket: Socket,
@@ -57,7 +58,7 @@ export function registerGameEvents(
 
     console.log(`ROLL_DICE`);
 
-    if (socket.id === game.players[game.currentPlayerIndex].id) {
+    if (socket.id === game.players[game.currentPlayerIndex]?.id) {
         game.rollDice();
         io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game);
     } else {
@@ -74,7 +75,7 @@ export function registerGameEvents(
       return;
     }
 
-    if (socket.id === game.players[game.currentPlayerIndex].id) {
+    if (socket.id === game.players[game.currentPlayerIndex]?.id) {
       game.toggleHoldDice(id);
       console.log(`TOGGLE_DIE, Die:${id} toggled`);
       io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game);
@@ -83,6 +84,32 @@ export function registerGameEvents(
       return;
     }
 
+  });
 
+  socket.on(ClientEvents.SELECT_SCORE, (joinCode: string, category: ScoreCategory) => {
+    const game = gameManager.getGame(joinCode);
+    if (!game) {
+      socket.emit(ServerEvents.ERROR, "Game not found");
+      return;
+    }
+
+    if (socket.id !== game.players[game.currentPlayerIndex]?.id) {
+      socket.emit(ServerEvents.ERROR, "Not your turn");
+      return;
+    }
+
+    if (game.rollsRemaining === 3) {
+      socket.emit(ServerEvents.ERROR, "Roll the dice first");
+      return;
+    }
+
+    console.log(`SELECT_SCORE, ${category} set`);
+    if (!game.selectScore(category, 0)) {
+      socket.emit(ServerEvents.ERROR, "Category already used");
+      return;
+    }
+
+    game.nextPlayer();
+    io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game);
   });
 }

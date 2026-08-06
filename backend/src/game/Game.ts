@@ -1,4 +1,5 @@
 import { Player } from "../player/Player.js";
+import type { ScoreCategory } from "../types/ScoreCategory.js";
 import { Die } from "./Die.js";
 import { GameStatus } from "./GameStatus.js";
 
@@ -65,6 +66,17 @@ export class Game {
     if (this.currentPlayerIndex === this.players.length) {
       this.currentPlayerIndex = 0;
     }
+  }
+
+  selectScore(category: ScoreCategory, value: number): boolean {
+    const player = this.players[this.currentPlayerIndex]!;
+
+    if (player.scores[category] !== null) {
+      return false;
+    }
+
+    player.scores[category] = value;
+    return true;
   }
   
 }
