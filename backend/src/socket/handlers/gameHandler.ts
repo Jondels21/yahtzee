@@ -104,7 +104,10 @@ export function registerGameEvents(
     }
 
     console.log(`SELECT_SCORE, ${category} set`);
-    if (!game.selectScore(category, 0)) {
+
+    const score = game.calculateScore(category);
+
+    if (!game.selectScore(category, score)) {
       socket.emit(ServerEvents.ERROR, "Category already used");
       return;
     }
