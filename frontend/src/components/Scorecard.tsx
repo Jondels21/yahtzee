@@ -59,12 +59,6 @@ export default function Scorecard({
   onScoreSelected,
 }: ScorecardProps) {
 
-  const renderEmptyCells = () => (
-    Array.from({length: maxPlayers }, (_, index) => (
-      <td key={index}>-</td>
-    ))
-  );
-
   const currentPlayerId = players[currentPlayerIndex].id;
 
   const renderCategoryRows = (categories: ScoreCategory[]) => 
@@ -112,16 +106,28 @@ export default function Scorecard({
         {renderCategoryRows(upperCategories)}
         <tr className="separator">
           <th scope="row">Upper total</th>
-            {renderEmptyCells()}
+            {players.map((player) => (
+              <td key={player.id}>
+                {player.upperTotal}
+              </td>
+            ))}
         </tr>
         <tr className="separator">
           <th scope="row">Bonus</th>
-            {renderEmptyCells()}
+            {players.map((player) => (
+              <td key={player.id}>
+                {player.bonus}
+              </td>
+            ))}
         </tr>
         {renderCategoryRows(lowerCategories)}
         <tr className="separator">
           <th scope="row">Grand total</th>
-            {renderEmptyCells()}
+            {players.map((player) => (
+              <td key={player.id}>
+                {player.grandTotal}
+              </td>
+            ))}
         </tr>
       </tbody>
     </table>

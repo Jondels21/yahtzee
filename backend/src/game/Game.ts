@@ -2,6 +2,7 @@ import { Player } from "../player/Player.js";
 import type { ScoreCategory } from "../types/ScoreCategory.js";
 import { Die } from "./Die.js";
 import { GameStatus } from "./GameStatus.js";
+import { upperCategories, lowerCategories } from "./categories.js";
 
 export class Game {
 
@@ -248,5 +249,59 @@ export class Game {
       }
     }
     return 50;
+  }
+
+  calculateUpperTotal(player: Player): number {
+    let total = 0;
+    for (const category of upperCategories) {
+      if (player.scores[category] !== null) {
+        total += player.scores[category];
+      }
+    }
+    return total;
+  }
+
+  calculateLowerTotal(player: Player): number {
+    let total = 0;
+    for (const category of lowerCategories) {
+      if (player.scores[category] !== null) {
+        total += player.scores[category];
+      }
+    }
+    return total;
+  }
+
+  calculateBonus(player: Player): number {
+    if (this.calculateUpperTotal(player) >= 63) {
+      return 50;
+    }
+    return 0;
+  }
+
+  calculateGrandTotal(player: Player): number {
+    return (this.calculateUpperTotal(player) + this.calculateBonus(player) + this.calculateLowerTotal(player));
+  }
+
+  getGameState() {
+    return {
+      joinCode: this.joinCode,
+      players: this.players.map((player) => ({
+        id: player.id,
+        nickname: player.nickname,
+        isHost: player.isHost,
+        isReady: player.isReady,
+        isConnected: player.isConnected,
+        scores: player.scores,
+        upperTotal: this.calculateUpperTotal(player),
+        lowerTotal: this.calculateLowerTotal(player),
+        bonus: this.calculateBonus(player),
+        grandTotal: this.calculateGrandTotal(player),
+      })),
+      currentPlayerIndex: this.currentPlayerIndex,
+      currentTurn: this.currentTurn,
+      rollsRemaining: this.rollsRemaining,
+      dice: this.dice,
+      status: this.status,
+    };
   }
 }

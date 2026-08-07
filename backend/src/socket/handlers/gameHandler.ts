@@ -17,7 +17,7 @@ export function registerGameEvents(
     const lobby = lobbyManager.getLobby(joinCode);
     if (!lobby) {
       socket.emit(ServerEvents.ERROR, "lobby not found");
-      console.log("Lobby not found");
+      // console.log("Lobby not found");
       return;
     }
 
@@ -31,7 +31,7 @@ export function registerGameEvents(
     // Validate has the game already started
     
     io.to(joinCode).emit(ServerEvents.GAME_STARTED);
-    console.log(`GAME_STARTED, ${lobby.joinCode} Started`);
+    // console.log(`GAME_STARTED, ${lobby.joinCode} Started`);
 
   });
 
@@ -43,10 +43,10 @@ export function registerGameEvents(
       return;
     }
 
-    console.log(`GET_GAME_STATE, ${game}`);
+    // console.log(`GET_GAME_STATE, ${game}`);
     
 
-    socket.emit(ServerEvents.GAME_UPDATED, game);
+    socket.emit(ServerEvents.GAME_UPDATED, game.getGameState());
   });
 
   socket.on(ClientEvents.ROLL_DICE, (joinCode) => {
@@ -56,11 +56,11 @@ export function registerGameEvents(
       return;
     }
 
-    console.log(`ROLL_DICE`);
+    // console.log(`ROLL_DICE`);
 
     if (socket.id === game.players[game.currentPlayerIndex]?.id) {
         game.rollDice();
-        io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game);
+        io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game.getGameState());
     } else {
       socket.emit(ServerEvents.ERROR, "Not your turn");
       return;
@@ -77,8 +77,8 @@ export function registerGameEvents(
 
     if (socket.id === game.players[game.currentPlayerIndex]?.id) {
       game.toggleHoldDice(id);
-      console.log(`TOGGLE_DIE, Die:${id} toggled`);
-      io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game);
+      // console.log(`TOGGLE_DIE, Die:${id} toggled`);
+      io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game.getGameState());
     } else {
       socket.emit(ServerEvents.ERROR, "Not your turn");
       return;
@@ -103,7 +103,7 @@ export function registerGameEvents(
       return;
     }
 
-    console.log(`SELECT_SCORE, ${category} set`);
+    // console.log(`SELECT_SCORE, ${category} set`);
 
     const score = game.calculateScore(category);
 
@@ -113,6 +113,6 @@ export function registerGameEvents(
     }
 
     game.nextPlayer();
-    io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game);
+    io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game.getGameState());
   });
 }

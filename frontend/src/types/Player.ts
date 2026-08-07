@@ -7,4 +7,8 @@ export interface Player {
   isReady: boolean;
   isConnected: boolean;
   scores: Scores;
+  upperTotal: number,
+  lowerTotal: number,
+  bonus: number,
+  grandTotal: number,
 }
