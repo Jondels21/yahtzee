@@ -20,7 +20,7 @@ export function registerLobbyEvents(
         lobbyManager.createLobby(joinCode);
 
         socket.join(joinCode)
-        console.log(`CREATE_LOBBY, Room created with ID: ${joinCode}`);
+        // console.log(`CREATE_LOBBY, Room created with ID: ${joinCode}`);
 
         socket.emit(ServerEvents.LOBBY_CREATED, {
             joinCode,
@@ -46,7 +46,7 @@ export function registerLobbyEvents(
         }
 
         socket.join(joinCode)
-        console.log(`JOIN_LOBBY, User ${socket.id} joined lobby ${joinCode}`);
+        // console.log(`JOIN_LOBBY, User ${socket.id} joined lobby ${joinCode}`);
 
         socket.emit(ServerEvents.LOBBY_JOINED, {joinCode});
     });
@@ -67,13 +67,13 @@ export function registerLobbyEvents(
             return;
         }
 
-        console.log(`LEAVE_LOBBY, Player ${socket.id} left lobby ${joinCode}`);
+        // console.log(`LEAVE_LOBBY, Player ${socket.id} left lobby ${joinCode}`);
         
         socket.leave(joinCode);
 
         if (lobby.isEmpty()) {
             lobbyManager.deleteLobby(joinCode);
-            console.log(`Deleted lobby ${joinCode}`);
+            // console.log(`Deleted lobby ${joinCode}`);
             return;
         }
 
@@ -85,7 +85,7 @@ export function registerLobbyEvents(
         const lobby = lobbyManager.getLobby(joinCode);
         if (!lobby) {
             socket.emit(ServerEvents.ERROR, "lobby not found");
-            console.log("Lobby not found");
+            // console.log("Lobby not found");
             return;
         }
 
@@ -103,10 +103,10 @@ export function registerLobbyEvents(
         if (added) {
             socket.emit(ServerEvents.NICKNAME_ACCEPTED);
             io.to(joinCode).emit(ServerEvents.LOBBY_UPDATED, lobby);
-            console.log(`SET_NICKNAME, ${normalizedNickname} joined ${joinCode}`);
+            // console.log(`SET_NICKNAME, ${normalizedNickname} joined ${joinCode}`);
         } else {
             socket.emit(ServerEvents.ERROR, "Failed to add player");
-            console.log("Failed to add player");
+            // console.log("Failed to add player");
             return;
         }
         
@@ -116,7 +116,7 @@ export function registerLobbyEvents(
         const lobby = lobbyManager.getLobby(joinCode);
         if (!lobby) {
             socket.emit(ServerEvents.ERROR, "lobby not found");
-            console.log("Lobby not found");
+            // console.log("Lobby not found");
             return;
         }
 
@@ -131,7 +131,7 @@ export function registerLobbyEvents(
 
         io.to(joinCode).emit(ServerEvents.LOBBY_UPDATED, lobby);
 
-        console.log(`PLAYER_READY, ${player.nickname} is ${player.isReady ? "ready" : "not ready"}`);
+        // console.log(`PLAYER_READY, ${player.nickname} is ${player.isReady ? "ready" : "not ready"}`);
 
     });
 
