@@ -32,3 +32,22 @@
     color: white;
     font-size: medium;
 }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .lobby-header {
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .join-code {
+    font-size: 1.1rem;
+    letter-spacing: 0.15rem;
+  }
+
+  .leave-button {
+    padding: 0.65em 1.2em;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+}

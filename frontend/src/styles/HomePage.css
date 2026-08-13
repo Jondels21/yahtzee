@@ -11,6 +11,9 @@
   place-items: center;
   flex-grow: 1;
 
+  padding: 1rem;
+  box-sizing: border-box;
+
 }
 
 .button-container {
@@ -18,14 +21,6 @@
   justify-content: center;
   align-items: flex-start;
   gap: 2rem;
-}
-
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
 }
 
 .create-button,
@@ -96,4 +91,30 @@
 .create-button:hover::before,
 .join-button:hover::before {
   transform: translateX(15em);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+  #center {
+    padding: 1rem;
+  }
+
+  .button-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .create-button,
+  .join-button {
+    width: 100%;
+    box-sizing: border-box;
+
+    font-size: 16px;
+    padding: 0.8em 1.5em;
+  }
 }
