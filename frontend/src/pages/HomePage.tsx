@@ -18,7 +18,6 @@ export default function HomePage() {
             <JoinLobby />
         </div>
       </section>
-      <section id="spacer"></section>
     </>
   )
 }
