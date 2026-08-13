@@ -1,5 +1,6 @@
 import type { Player } from "./Player";
 import type { Die } from "./Die";
+import type { GameStatus } from "./GameStatus";
 
 export interface Game {
   joinCode: string;
@@ -8,4 +9,5 @@ export interface Game {
   currentTurn: number;
   rollsRemaining: number;
   dice: Die[];
+  status: GameStatus;
 }

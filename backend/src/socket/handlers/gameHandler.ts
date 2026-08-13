@@ -5,6 +5,7 @@ import { Player } from "../../player/Player.js";
 import type { LobbyManager } from "../../lobby/LobbyManager.js";
 import { LobbyStatus } from "../../lobby/LobbyStatus.js";
 import type { ScoreCategory } from "../../types/ScoreCategory.js";
+import { GameStatus } from "../../game/GameStatus.js";
 
 export function registerGameEvents(
   socket: Socket,
@@ -112,7 +113,14 @@ export function registerGameEvents(
       return;
     }
 
-    game.nextPlayer();
+    const finished = game.isGameFinished();
+
+    if (!finished) {
+      game.nextPlayer();
+    } else {
+      game.status = GameStatus.FINISHED;
+    }
+
     io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game.getGameState());
   });
 }

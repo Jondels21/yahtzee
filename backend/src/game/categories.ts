@@ -20,3 +20,21 @@ export const lowerCategories: ScoreCategory[] = [
   "Chance",
   "Yahtzee",
 ];
+
+export const allCategories: ScoreCategory[] = [
+  "Ones",
+  "Twos",
+  "Threes",
+  "Fours",
+  "Fives",
+  "Sixes",
+  "Pair",
+  "TwoPairs",
+  "ThreeOfAKind",
+  "FourOfAKind",
+  "SmallStraight",
+  "LargeStraight",
+  "FullHouse",
+  "Chance",
+  "Yahtzee",
+];

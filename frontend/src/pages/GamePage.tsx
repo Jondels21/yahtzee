@@ -87,6 +87,12 @@ export default function GamePage() {
     return <p className="error">{error}</p>;
   };
 
+  if (game.status === "FINISHED") {
+    return <div>
+      <p>GAME IS FINISHED</p>
+    </div>
+  };
+
 
 
   return (
@@ -94,14 +100,15 @@ export default function GamePage() {
       <main className="game-container">
         <div className="game-area">
           <h1>Game</h1>
-          <p>Current turn: {currentPlayer.nickname}</p>
+          <p>Player: {currentPlayer.nickname}</p>
+          <p>Current turn: {game.currentTurn}</p>
           <DiceContainer
             dice={game.dice}
             rollsRemaining={game.rollsRemaining}
             isMyTurn={isMyTurn}
             onDieClick={handleDieClick}
           />
-          <button disabled={!isMyTurn || game.rollsRemaining === 0} onClick={handleDiceRoll}>ROLL DICE</button>
+          <button className="roll_button" disabled={!isMyTurn || game.rollsRemaining === 0} onClick={handleDiceRoll}>ROLL DICE</button>
         </div>
         <div className="score-area">
           <Scorecard

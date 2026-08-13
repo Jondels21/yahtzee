@@ -2,7 +2,7 @@ import { Player } from "../player/Player.js";
 import type { ScoreCategory } from "../types/ScoreCategory.js";
 import { Die } from "./Die.js";
 import { GameStatus } from "./GameStatus.js";
-import { upperCategories, lowerCategories } from "./categories.js";
+import { upperCategories, lowerCategories, allCategories } from "./categories.js";
 
 export class Game {
 
@@ -65,6 +65,7 @@ export class Game {
     this.rollsRemaining = 3;
     this.resetDice();
     if (this.currentPlayerIndex === this.players.length) {
+      this.currentTurn++;
       this.currentPlayerIndex = 0;
     }
   }
@@ -280,6 +281,20 @@ export class Game {
 
   calculateGrandTotal(player: Player): number {
     return (this.calculateUpperTotal(player) + this.calculateBonus(player) + this.calculateLowerTotal(player));
+  }
+
+  isGameFinished(): boolean {
+    console.log("Checking game completion");
+
+    for (const player of this.players) {
+      for (const category of allCategories) {
+        if (player.scores[category] === null) {
+          return false;
+        }
+      }
+    }
+    console.log("GAME_FINISHED");
+    return true;
   }
 
   getGameState() {
