@@ -102,9 +102,15 @@ export default function GamePage() {
   return (
     <main className="game-container">
       <div className="game-area">
-        <h1>Game</h1>
-        <p>Player: {currentPlayer.nickname}</p>
-        <p>Current turn: {game.currentTurn}</p>
+        <div className="game-info">
+          <p>
+            Player: <strong>{currentPlayer.nickname}</strong>
+          </p>
+
+          <p>
+            Current turn: <strong>{game.currentTurn}</strong>
+          </p>
+        </div>
         <DiceContainer
           dice={game.dice}
           rollsRemaining={game.rollsRemaining}

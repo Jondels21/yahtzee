@@ -20,7 +20,7 @@ export default function DiceContainer({
 
   return(
     <>
-      <p className="remaining">Rolls remaining: {rollsRemaining}</p>
+      <p className="remaining">Rolls remaining:  <strong>{rollsRemaining}</strong></p>
       <div className="diceRow">
         {dice.map((die) => (
           <p key={die.id} className={`die ${die.held ? "held" : ""} ${!isMyTurn || rollsRemaining === 3 || rollsRemaining === 0 ? "disabled" : ""}`} onClick={() => onDieClick(die.id)}>
