@@ -9,6 +9,7 @@ import Scorecard from "../components/Scorecard";
 import "../styles/GamePage.css";
 import DiceContainer from "../components/DiceContainer";
 import type { ScoreCategory } from "../types/ScoreCategory";
+import GameOverList from "../components/GameOverList";
 
 
 export default function GamePage() {
@@ -88,39 +89,40 @@ export default function GamePage() {
   };
 
   if (game.status === "FINISHED") {
-    return <div>
-      <p>GAME IS FINISHED</p>
-    </div>
+    return (
+        <GameOverList
+          players={game.players}
+          maxPlayers={game.players.length}
+        />
+    );
   };
 
 
 
   return (
-    <>
-      <main className="game-container">
-        <div className="game-area">
-          <h1>Game</h1>
-          <p>Player: {currentPlayer.nickname}</p>
-          <p>Current turn: {game.currentTurn}</p>
-          <DiceContainer
-            dice={game.dice}
-            rollsRemaining={game.rollsRemaining}
-            isMyTurn={isMyTurn}
-            onDieClick={handleDieClick}
-          />
-          <button className="roll_button" disabled={!isMyTurn || game.rollsRemaining === 0} onClick={handleDiceRoll}>ROLL DICE</button>
-        </div>
-        <div className="score-area">
-          <Scorecard
-            players={game.players}
-            currentPlayerIndex={game.currentPlayerIndex}
-            localPlayerId={socket.id}
-            onScoreSelected={handleScoreSelected}
-            maxPlayers={game.players.length}
-          />
-        </div>
-      </main>
-    </>
+    <main className="game-container">
+      <div className="game-area">
+        <h1>Game</h1>
+        <p>Player: {currentPlayer.nickname}</p>
+        <p>Current turn: {game.currentTurn}</p>
+        <DiceContainer
+          dice={game.dice}
+          rollsRemaining={game.rollsRemaining}
+          isMyTurn={isMyTurn}
+          onDieClick={handleDieClick}
+        />
+        <button className="roll_button" disabled={!isMyTurn || game.rollsRemaining === 0} onClick={handleDiceRoll}>ROLL DICE</button>
+      </div>
+      <div className="score-area">
+        <Scorecard
+          players={game.players}
+          currentPlayerIndex={game.currentPlayerIndex}
+          localPlayerId={socket.id}
+          onScoreSelected={handleScoreSelected}
+          maxPlayers={game.players.length}
+        />
+      </div>
+    </main>
   );
   
 }
