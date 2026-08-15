@@ -10,7 +10,7 @@ export default function LobbyPlayerCard({
   player,
 }: LobbyPlayerCardProps) {
   return (
-    <div className="player-card">
+    <div className="lobby-player-card">
       {player ? (
         <>
           <span>{player.nickname}</span>
