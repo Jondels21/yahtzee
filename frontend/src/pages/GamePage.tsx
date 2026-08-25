@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { socket } from "../socket/socket";
 import { ClientEvents, ServerEvents } from "../socket/events";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import type { Game } from "../types/Game";
 
 import Scorecard from "../components/Scorecard";
@@ -19,6 +19,8 @@ export default function GamePage() {
   const [game, setGame] = useState<Game | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
 
   
   useEffect(() => {
@@ -60,6 +62,7 @@ export default function GamePage() {
   const isMyTurn = currentPlayer.id === socket.id;
 
   const handleDiceRoll = () => {
+    setError("");
     socket.emit(ClientEvents.ROLL_DICE, joinCode);
   }
 
@@ -80,20 +83,32 @@ export default function GamePage() {
     socket.emit(ClientEvents.SELECT_SCORE, joinCode, category);
   };
 
+  const handleExitGame = () => {
+    socket.emit(ClientEvents.LEAVE_LOBBY, joinCode);
+    if(!joinCode) {
+      return;
+    };
+    
+    navigate("/");
+  };
+
   if (loading) {
     return <p>Loading...</p>;
   };
 
-  if (error) {
-    return <p className="error">{error}</p>;
-  };
-
   if (game.status === "FINISHED") {
     return (
+      <>
         <GameOverList
           players={game.players}
           maxPlayers={game.players.length}
         />
+        <div>
+          <button className="leave-button" onClick={handleExitGame}>
+            EXIT GAME
+          </button>
+        </div>
+      </>
     );
   };
 
@@ -118,6 +133,9 @@ export default function GamePage() {
           onDieClick={handleDieClick}
         />
         <button className="roll_button" disabled={!isMyTurn || game.rollsRemaining === 0} onClick={handleDiceRoll}>ROLL DICE</button>
+        {error && (
+          <p className="error">{error}</p>
+        )}
       </div>
       <div className="score-area">
         <Scorecard
