@@ -79,7 +79,7 @@ export default function GamePage() {
   };
 
   const handleScoreSelected = (category: ScoreCategory) => {
-    console.log(`Clicked ${category}`);
+    // console.log(`Clicked ${category}`);
     socket.emit(ClientEvents.SELECT_SCORE, joinCode, category);
   };
 

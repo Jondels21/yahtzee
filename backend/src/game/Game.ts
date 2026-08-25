@@ -284,7 +284,7 @@ export class Game {
   }
 
   isGameFinished(): boolean {
-    console.log("Checking game completion");
+    // console.log("Checking game completion");
 
     for (const player of this.players) {
       for (const category of allCategories) {
@@ -293,7 +293,7 @@ export class Game {
         }
       }
     }
-    console.log("GAME_FINISHED");
+    // console.log("GAME_FINISHED");
     return true;
   }
 

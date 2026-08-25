@@ -1,7 +1,6 @@
 import { Server, Socket } from "socket.io";
-import { GameManager } from "../../game/GameManager.js";
+import { GameManager } from "../../game/gameManager.js";
 import { ClientEvents, ServerEvents } from "../events.js";
-import { Player } from "../../player/Player.js";
 import type { LobbyManager } from "../../lobby/LobbyManager.js";
 import { LobbyStatus } from "../../lobby/LobbyStatus.js";
 import type { ScoreCategory } from "../../types/ScoreCategory.js";

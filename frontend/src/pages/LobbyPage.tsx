@@ -50,12 +50,12 @@ export default function LobbyPage() {
 
   useEffect(() => {
     const handleLobbyUpdated = (updatedLobby: Lobby) => {
-      console.log("UpdatedLobby: ",updatedLobby);
+      // console.log("UpdatedLobby: ",updatedLobby);
       setLobby(updatedLobby);
     };
 
     const handleNicknameAccepted = () => {
-      console.log("Nickname accepted!");
+      // console.log("Nickname accepted!");
       setNicknameError("");
       setShowNicknameModal(false);
     };
