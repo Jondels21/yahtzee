@@ -37,10 +37,24 @@ This project is a real-time multiplayer Yahtzee browser game built with TypeScri
 The frontend reads the Socket.IO server URL from the following environment variable:
 
 ```env
-VITE_API_URL=http://localhost:3000
+VITE_API_URL=http://<backend-ip>:3000
 ```
 
 If `VITE_API_URL` is not set, the frontend uses `http://localhost:3000` by default.
+
+The backend reads the allowed frontend origins from the following environment variable:
+
+```env
+ALLOWED_ORIGINS=http://<frontend-ip>:5173
+```
+
+Multiple origins can be specified as a comma-separated list:
+
+```env
+ALLOWED_ORIGINS=http://localhost:5173,http://<frontend-ip>:5173
+```
+
+If `ALLOWED_ORIGINS` is not set, the backend allows `http://localhost:5173` by default.
 
 ## Run Instructions
 
