@@ -1,0 +1,25 @@
+.start-game-button {
+  --green: #1BFD9C;
+  font-size: 15px;
+  padding: 0.7em 2.7em;
+  border-radius: 0.6em;
+  overflow: hidden;
+  line-height: 1.4em;
+  border: 2px solid var(--green);
+  background: linear-gradient(to right, rgba(27, 253, 156, 0.1) 1%, transparent 40%,transparent 60% , rgba(27, 253, 156, 0.1) 100%);
+  color: var(--green);
+  letter-spacing: 0.06em;
+  box-shadow: inset 0 0 10px rgba(27, 253, 156, 0.4), 0 0 9px 3px rgba(27, 253, 156, 0.1);
+}
+
+.start-game-button.disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+
+  color: #777;
+  border-color: #777;
+  background: #e5e5e5;
+
+  box-shadow: none;
+  transform: none;
+}

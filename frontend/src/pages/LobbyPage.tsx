@@ -8,6 +8,7 @@ import type { Lobby } from "../types/Lobby";
 import LobbyPlayerList from "../components/LobbyPlayerList";
 import LobbyHeader from "../components/LobbyHeader";
 import ReadyButton from "../components/ReadyButton";
+import StartGameButton from "../components/StartGameButton";
 
 import "../styles/LobbyPage.css";
 
@@ -114,10 +115,14 @@ export default function LobbyPage() {
                 onClick={handlePlayerReady}
               />
               
-              <button onClick={handlePressStart}>Start game</button>
+              {currentPlayer?.isHost && (
+                 <StartGameButton
+                    onClick={handlePressStart}
+                    players={lobby.players}
+                  />
+              )}
             </div>
           </main>
-
         )}
       </>
     );
