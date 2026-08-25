@@ -116,28 +116,44 @@ export default function GamePage() {
 
   return (
     <main className="game-container">
-      <div className="game-area">
+      <section className="game-area">
         <div className="game-info">
-          <p>
-            Player: <strong>{currentPlayer.nickname}</strong>
-          </p>
+          <span className={isMyTurn ? "turn-pill active" : "turn-pill"}>
+            {isMyTurn ? "Your turn" : "Waiting"}
+          </span>
 
-          <p>
-            Current turn: <strong>{game.currentTurn}</strong>
+          <div>
+            <p className="turn-label">Current player</p>
+            <h1 className="turn-player">{currentPlayer.nickname}</h1>
+          </div>
+
+          <p className="turn-count">
+            Turn <strong>{game.currentTurn}</strong>
           </p>
         </div>
+
         <DiceContainer
           dice={game.dice}
           rollsRemaining={game.rollsRemaining}
           isMyTurn={isMyTurn}
           onDieClick={handleDieClick}
         />
-        <button className="roll_button" disabled={!isMyTurn || game.rollsRemaining === 0} onClick={handleDiceRoll}>ROLL DICE</button>
+
+        <div className="game-actions">
+          <button className="roll_button" disabled={!isMyTurn || game.rollsRemaining === 0} onClick={handleDiceRoll}>ROLL DICE</button>
+        </div>
+
         {error && (
           <p className="error">{error}</p>
         )}
-      </div>
-      <div className="score-area">
+      </section>
+
+      <section className="score-area" aria-label="Scorecard">
+        <div className="score-area-header">
+          <p>Scorecard</p>
+          <span>{game.players.length} players</span>
+        </div>
+
         <Scorecard
           players={game.players}
           currentPlayerIndex={game.currentPlayerIndex}
@@ -145,7 +161,7 @@ export default function GamePage() {
           onScoreSelected={handleScoreSelected}
           maxPlayers={game.players.length}
         />
-      </div>
+      </section>
     </main>
   );
   
