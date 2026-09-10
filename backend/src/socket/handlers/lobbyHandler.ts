@@ -27,7 +27,7 @@ export function registerLobbyEvents(
         });
     });
 
-    socket.on(ClientEvents.JOIN_LOBBY, (joinCode) => {
+    socket.on(ClientEvents.JOIN_LOBBY, (joinCode: string) => {
 
         const lobby = lobbyManager.getLobby(joinCode);
 
@@ -51,7 +51,7 @@ export function registerLobbyEvents(
         socket.emit(ServerEvents.LOBBY_JOINED, {joinCode});
     });
 
-    socket.on(ClientEvents.LEAVE_LOBBY, (joinCode) => {
+    socket.on(ClientEvents.LEAVE_LOBBY, (joinCode: string) => {
         
         const lobby = lobbyManager.getLobby(joinCode);
 
@@ -80,7 +80,7 @@ export function registerLobbyEvents(
         io.to(joinCode).emit(ServerEvents.LOBBY_UPDATED, lobby);
     });
 
-    socket.on(ClientEvents.SET_NICKNAME, (joinCode, nickname) => {
+    socket.on(ClientEvents.SET_NICKNAME, (joinCode: string, nickname: string) => {
 
         const lobby = lobbyManager.getLobby(joinCode);
         if (!lobby) {
@@ -89,6 +89,11 @@ export function registerLobbyEvents(
             return;
         }
 
+        if (typeof nickname !== "string") {
+            socket.emit(ServerEvents.ERROR, "Nickname must be a string.");
+            return;
+        }
+        
         const normalizedNickname = nickname.trim();
 
         if (normalizedNickname.length === 0 || normalizedNickname.length > 20) {
@@ -112,7 +117,7 @@ export function registerLobbyEvents(
         
     });
 
-    socket.on(ClientEvents.PLAYER_READY, (joinCode) => {
+    socket.on(ClientEvents.PLAYER_READY, (joinCode: string) => {
         const lobby = lobbyManager.getLobby(joinCode);
         if (!lobby) {
             socket.emit(ServerEvents.ERROR, "lobby not found");
