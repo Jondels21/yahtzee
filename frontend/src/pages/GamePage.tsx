@@ -84,6 +84,9 @@ export default function GamePage() {
   };
 
   const handleExitGame = () => {
+    if (game.status !== "FINISHED" && !window.confirm("Leave this game? You won't be able to rejoin.")) {
+      return;
+    }
     socket.emit(ClientEvents.LEAVE_LOBBY, joinCode);
     if(!joinCode) {
       return;
@@ -141,6 +144,7 @@ export default function GamePage() {
 
         <div className="game-actions">
           <button className="roll_button" disabled={!isMyTurn || game.rollsRemaining === 0} onClick={handleDiceRoll}>ROLL DICE</button>
+          <button className="leave-button" onClick={handleExitGame}>EXIT GAME</button>
         </div>
 
         {error && (

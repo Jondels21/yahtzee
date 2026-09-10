@@ -12,32 +12,35 @@ export function initializeSocket(io: Server) {
     io.on("connection", (socket) => {
         // console.log(`${socket.id} connected`);
 
-        registerLobbyEvents(socket, io, lobbyManager);
+        const leavePlayer = (joinCode: string): boolean => {
+            const lobby = lobbyManager.getLobby(joinCode);
+            if (!lobby || !lobby.removePlayer(socket.id)) {
+                return false;
+            }
+
+            socket.leave(joinCode);
+            const game = gameManager.getGame(joinCode);
+            const gameChanged = game?.removePlayer(socket.id);
+            if (lobby.isEmpty()) {
+                lobbyManager.deleteLobby(joinCode);
+                gameManager.deleteGame(joinCode);
+            } else {
+                io.to(joinCode).emit(ServerEvents.LOBBY_UPDATED, lobby);
+                if (game && gameChanged) {
+                    io.to(joinCode).emit(ServerEvents.GAME_UPDATED, game.getGameState());
+                }
+            }
+            return true;
+        };
+
+        registerLobbyEvents(socket, io, lobbyManager, leavePlayer);
         registerGameEvents(socket, io, gameManager, lobbyManager);
 
         socket.on("disconnect", () => {
-            // console.log(`${socket.id} disconnected`);
-
             const lobby = lobbyManager.findLobbyByPlayer(socket.id);
-
-            if (!lobby) {
-                return;
+            if (lobby) {
+                leavePlayer(lobby.joinCode);
             }
-
-            const removed = lobby.removePlayer(socket.id);
-
-            if (!removed) {
-                return;
-            }
-            // console.log(`Removed ${socket.id} from lobby ${lobby.joinCode}`);
-
-            if (lobby.isEmpty()) {
-                lobbyManager.deleteLobby(lobby.joinCode);
-                // console.log(`Deleted lobby ${lobby.joinCode}`);
-                return;
-            }
-
-            io.to(lobby.joinCode).emit(ServerEvents.LOBBY_UPDATED, lobby);
         })
     })
 }

@@ -7,7 +7,8 @@ import { Player } from "../../player/Player.js";
 export function registerLobbyEvents(
     socket: Socket,
     io: Server,
-    lobbyManager: LobbyManager
+    lobbyManager: LobbyManager,
+    leavePlayer: (joinCode: string) => boolean,
 ) {
 
     socket.on(ClientEvents.CREATE_LOBBY, () => {
@@ -60,24 +61,13 @@ export function registerLobbyEvents(
             return;
         }
 
-        const removed = lobby.removePlayer(socket.id);
+        const removed = leavePlayer(joinCode);
 
         if (!removed) {
             socket.emit(ServerEvents.ERROR, "Player not found in lobby");
             return;
         }
 
-        // console.log(`LEAVE_LOBBY, Player ${socket.id} left lobby ${joinCode}`);
-        
-        socket.leave(joinCode);
-
-        if (lobby.isEmpty()) {
-            lobbyManager.deleteLobby(joinCode);
-            // console.log(`Deleted lobby ${joinCode}`);
-            return;
-        }
-
-        io.to(joinCode).emit(ServerEvents.LOBBY_UPDATED, lobby);
     });
 
     socket.on(ClientEvents.SET_NICKNAME, (joinCode: string, nickname: string) => {
@@ -140,4 +130,4 @@ export function registerLobbyEvents(
 
     });
 
-}  
+}

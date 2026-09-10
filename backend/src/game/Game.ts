@@ -70,6 +70,31 @@ export class Game {
     }
   }
 
+  removePlayer(playerId: string): boolean {
+    const index = this.players.findIndex(player => player.id === playerId);
+    if (index === -1 || this.status === GameStatus.FINISHED) {
+      return false;
+    }
+
+    this.players.splice(index, 1);
+
+    if (index < this.currentPlayerIndex) {
+      this.currentPlayerIndex--;
+    } else if (index === this.currentPlayerIndex) {
+      this.rollsRemaining = 3;
+      this.resetDice();
+      if (this.currentPlayerIndex >= this.players.length) {
+        this.currentPlayerIndex = 0;
+        this.currentTurn++;
+      }
+    }
+
+    if (this.isGameFinished()) {
+      this.status = GameStatus.FINISHED;
+    }
+    return true;
+  }
+
   selectScore(category: ScoreCategory, value: number): boolean {
     const player = this.players[this.currentPlayerIndex]!;
 

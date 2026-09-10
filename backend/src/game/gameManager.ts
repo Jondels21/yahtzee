@@ -22,4 +22,8 @@ export class GameManager {
   getGame(joinCode: string): Game | undefined {
     return this.games.get(joinCode);
   }
+
+  deleteGame(joinCode: string): void {
+    this.games.delete(joinCode);
+  }
 }
