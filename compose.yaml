@@ -1,0 +1,26 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: yahtzee-backend
+    restart: unless-stopped
+    environment:
+      ALLOWED_ORIGINS: "${PUBLIC_ORIGIN:?Set PUBLIC_ORIGIN in the root .env}"
+    networks:
+      - proxy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: "${PUBLIC_ORIGIN:?Set PUBLIC_ORIGIN in the root .env}"
+    container_name: yahtzee-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
