@@ -9,7 +9,7 @@ import "./App.css";
 
 function App() {
   return(
-    <BrowserRouter>
+    <BrowserRouter basename="/yahtzee">
       <Routes>
         <Route
           path="/"
