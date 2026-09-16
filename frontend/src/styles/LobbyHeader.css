@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: center;
 
-    border-bottom: 1px solid #303030;
+    border-bottom: 1px solid var(--border);
 
     padding-bottom: 1rem;
 }
@@ -17,21 +17,35 @@
 
     font-weight: bold;
 
-    color: green;
+    color: var(--accent);
 }
 
 .leave-button {
-    --red: rgb(255, 53, 53);
     font-size: 15px;
     padding: 0.7em 2.7em;
     margin: 2rem 0;
     border-radius: 0.6em;
     overflow: hidden;
     line-height: 1.4em;
-    border: 2px solid var(--red);
-    background: var(--red);
-    color: white;
+    border: 2px solid var(--danger);
+    background: var(--danger);
+    color: #fff;
     font-size: medium;
+    font-weight: 750;
+    transition:
+      transform 0.18s ease,
+      background 0.18s ease,
+      border-color 0.18s ease;
+}
+
+.leave-button:hover {
+    border-color: var(--danger-hover);
+    background: var(--danger-hover);
+    transform: translateY(-2px);
+}
+
+.leave-button:active {
+    transform: translateY(1px);
 }
 
 /* Mobile */

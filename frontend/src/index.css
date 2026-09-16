@@ -1,15 +1,33 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
+  --text: #5f5b66;
+  --text-h: #17151b;
+  --text-inverse: #f8f8f5;
+  --bg: #f4f4f1;
+  --surface: #ffffff;
+  --surface-subtle: #f8f8f5;
+  --surface-inset: #ebebe7;
+  --surface-hover: #f0f0ec;
+  --border: #dedde2;
+  --border-strong: #c4c2ca;
+  --code-bg: #eae9e4;
+  --accent: #087a55;
+  --accent-hover: #066846;
+  --accent-contrast: #ffffff;
+  --accent-bg: rgba(8, 122, 85, 0.1);
+  --accent-border: rgba(8, 122, 85, 0.42);
+  --gold: #946b00;
+  --gold-bg: #fff5cf;
+  --gold-border: #d3a728;
+  --danger: #b42332;
+  --danger-hover: #941c29;
+  --danger-bg: #fff0f1;
+  --field-bg: #f3f3ef;
+  --disabled-bg: #deded9;
+  --disabled-text: #77737d;
   --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+    rgba(35, 31, 43, 0.12) 0 12px 24px -8px,
+    rgba(35, 31, 43, 0.06) 0 3px 8px -3px;
+  --shadow-strong: 0 18px 42px rgba(35, 31, 43, 0.16);
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -32,17 +50,34 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
+    --text: #aaa6af;
+    --text-h: #f3f2f5;
+    --text-inverse: #151418;
+    --bg: #111216;
+    --surface: #191a20;
+    --surface-subtle: #202127;
+    --surface-inset: #121318;
+    --surface-hover: #282a31;
+    --border: #30313a;
+    --border-strong: #484a55;
+    --code-bg: #222329;
+    --accent: #38d89a;
+    --accent-hover: #5ae5ad;
+    --accent-contrast: #062619;
+    --accent-bg: rgba(56, 216, 154, 0.12);
+    --accent-border: rgba(56, 216, 154, 0.45);
+    --gold: #f1cf62;
+    --gold-bg: #302a18;
+    --gold-border: #9c812b;
+    --danger: #e0525f;
+    --danger-hover: #ee6b76;
+    --danger-bg: #321b20;
+    --field-bg: #25262d;
+    --disabled-bg: #303139;
+    --disabled-text: #8e8b94;
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    --shadow-strong: 0 18px 42px rgba(0, 0, 0, 0.38);
   }
 
   #social .button-icon {
@@ -64,6 +99,29 @@
 
 body {
   margin: 0;
+  min-width: 320px;
+  min-height: 100dvh;
+  background: var(--bg);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+[role="button"]:focus-visible {
+  outline: 3px solid var(--accent-border);
+  outline-offset: 3px;
+}
+
+.field .input-field:focus-visible {
+  outline: none;
 }
 
 h1,

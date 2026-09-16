@@ -5,19 +5,19 @@
   border-spacing: 0;
   overflow: hidden;
 
-  color: #f7f7f2;
-  background: #181818;
-  border: 1px solid #303030;
+  color: var(--text-h);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.36);
+  box-shadow: var(--shadow-strong);
   font-size: 0.82rem;
 }
 
 .scorecard th,
 .scorecard td {
   padding: 0.5rem 0.75rem;
-  border-right: 1px solid #303030;
-  border-bottom: 1px solid #303030;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .scorecard th:last-child,
@@ -31,11 +31,11 @@
 }
 
 .scorecard thead {
-  background: #262626;
+  background: var(--surface-inset);
 }
 
 .scorecard thead th {
-  color: #f7f7f2;
+  color: var(--text-h);
   font-size: 0.74rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -48,30 +48,30 @@
 
 .scorecard tbody th {
   white-space: nowrap;
-  color: #ddd7cf;
+  color: var(--text-h);
   font-weight: 800;
 }
 
 .scorecard tbody tr:nth-child(even) {
-  background: #202020;
+  background: var(--surface-subtle);
 }
 
 .scorecard tbody tr:nth-child(odd) {
-  background: #181818;
+  background: var(--surface);
 }
 
 .scorecard tbody tr:hover {
-  background: #292929;
+  background: var(--surface-hover);
 }
 
 .separator {
-  background: #2f2a1b !important;
+  background: var(--gold-bg) !important;
   font-weight: 900;
 }
 
 .separator th,
 .separator td {
-  color: #ffd54f;
+  color: var(--gold);
 }
 
 .scorecard td {
@@ -83,12 +83,13 @@
 
 .score-cell.clickable {
   cursor: pointer;
-  color: #1bf59c;
-  background: rgba(27, 245, 156, 0.08);
+  color: var(--accent);
+  background: var(--accent-bg);
 }
 
 .score-cell.clickable:hover {
-  background: rgba(27, 245, 156, 0.18);
+  background: var(--accent-bg);
+  box-shadow: inset 0 0 0 2px var(--accent-border);
 }
 
 @media (max-width: 1180px) and (min-width: 901px) {
@@ -150,7 +151,7 @@
     position: sticky;
     top: 0;
     z-index: 2;
-    background: #262626;
+    background: var(--surface-inset);
   }
 
   .scorecard thead th:first-child,
@@ -160,15 +161,15 @@
     z-index: 3;
     max-width: 8.5rem;
     background: inherit;
-    box-shadow: 1px 0 0 #303030;
+    box-shadow: 1px 0 0 var(--border);
   }
 
   .scorecard thead th:first-child {
-    background: #262626;
+    background: var(--surface-inset);
   }
 
   .separator th {
-    background: #2f2a1b;
+    background: var(--gold-bg);
   }
 
   .scorecard td {
@@ -179,7 +180,7 @@
   .score-cell.clickable {
     position: relative;
     min-width: 4rem;
-    outline: 1px solid rgba(27, 245, 156, 0.35);
+    outline: 1px solid var(--accent-border);
     outline-offset: -4px;
   }
 }
